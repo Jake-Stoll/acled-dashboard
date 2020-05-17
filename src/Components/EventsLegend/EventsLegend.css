@@ -5,6 +5,7 @@
   top: 24px;
   right: 24px;
   z-index: 1;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
 }
 #event-legend-title {
   font-size: 16px;

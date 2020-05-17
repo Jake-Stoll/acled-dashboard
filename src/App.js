@@ -16,12 +16,19 @@ class App extends React.Component {
       startDate: "2020-01-01",
       endDate: "2020-05-01",
       eventType: [],
-      region: [],
+      region: [1, 2, 3, 4, 5],
       iso: [],
       fatalities: 10,
       interaction: []
     }
   }
+
+  changeFilter = (value, stateProp) => {
+    let newState = {};
+    newState[stateProp] = value;
+    this.setState(newState)
+  }
+
   componentDidMount() {
     // Call ACLED API for data
     this.constructAcledUrl();
@@ -38,8 +45,12 @@ class App extends React.Component {
       });
     }
     return url;
-
   }
+
+  applyNewFilters = () => {
+    this.constructAcledUrl();
+  }
+
 
   constructAcledUrl = () => {
     const { startDate, endDate, eventType, region, iso, interaction } = this.state;
@@ -59,6 +70,7 @@ class App extends React.Component {
 
   getAcledData = url => {
     const { startDate, endDate, fatalities } = this.state;
+    this.setState({ dataReady: false })
     fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -69,7 +81,6 @@ class App extends React.Component {
         if (filteredData.length >= 20000) {
           return alert("Too many results")
         }
-        console.log(filteredData)
         this.setState({ data: filteredData.reverse(), dataReady: true })
       })
       .catch(error => {
@@ -87,7 +98,7 @@ class App extends React.Component {
           </React.Fragment>)
           : null}
         <EventsLegend />
-        <Sidebar />
+        <Sidebar applyNewFilters={this.applyNewFilters} changeFilter={this.changeFilter} startDate={startDate} endDate={endDate} data={data} />
 
       </div>
     )
