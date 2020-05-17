@@ -1,26 +1,50 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+// Import components
+import Map from './Components/Map/Map';
+import EventsLegend from './Components/EventsLegend/EventsLegend';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      dataReady: false,
+      startDate: "2020-01-01",
+      endDate: "2020-05-01"
+    }
+  }
+  componentDidMount() {
+    // Call ACLED API for data
+    this.getAcledData();
+  }
+  getAcledData = () => {
+    const { startDate, endDate } = this.state;
+    fetch(`https://api.acleddata.com/acled/read?terms=accept&event_date={${startDate}|${endDate}}&event_date_where=BETWEEN`)
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ data: data.data, dataReady: true })
+      })
+      .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+      });
+  }
+  render() {
+    const { data, dataReady } = this.state;
+    return (
+      <div className="App">
+        {dataReady ? (
+          <React.Fragment>
+            <Map data={data} />
+            <EventsLegend />
+          </React.Fragment>)
+          : null}
+
+
+      </div>
+    )
+  }
 }
 
 export default App;
