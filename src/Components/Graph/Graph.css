@@ -1,0 +1,13 @@
+#graph-container {
+  height: 220px;
+  width: calc(100% - 372px);
+  background-color: white;
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1;
+  overflow: hidden;
+}
+#graph {
+  margin-top: -90px;
+}

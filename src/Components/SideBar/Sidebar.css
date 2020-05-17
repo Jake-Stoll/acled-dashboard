@@ -1,0 +1,9 @@
+#sidebar {
+  height: calc(100% - 48px);
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  width: 300px;
+  background-color: white;
+  z-index: 1;
+}

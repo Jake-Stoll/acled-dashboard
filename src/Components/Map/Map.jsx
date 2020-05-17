@@ -56,7 +56,6 @@ class Map extends React.Component {
       'type': 'geojson',
       'data': geojson
     });
-    console.log(geojson)
     // Add different layers for color filters
     const eventTypes = [
       { type: "Strategic developments", color: '#6E8A64' },
